@@ -1,0 +1,36 @@
+.btn {
+	font-weight: 700;
+	display: block;
+	padding: 6px 12px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-iflex {
+    display: inline-flex;
+}
+
+.smooth {
+    transition: .2s;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fs-i {
+    font-style: italic;
+}
+
+.pad-0 {
+	padding: 0 !important;
+}
+
+.mar-0 {
+	margin: 0;
+}

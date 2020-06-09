@@ -1,0 +1,79 @@
+html {
+	font-size: 14px;
+	box-sizing: border-box;
+	color: $blue;
+}
+
+* {
+	font-family: $f1;
+	margin: 0;
+	padding: 0;
+}
+
+.site {
+	overflow: hidden;
+}
+
+.container {
+	@media all and (min-width:1200px) {
+		width: 94%;
+		max-width: unset;
+	}
+}
+
+// Headings.
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 1.5rem;
+	line-height: 1.5;
+}
+h1 {
+	font-size: 14px;
+}
+h2 {
+	font-family: $f2;
+	font-size: 36px;
+
+	@media all and (max-width:1500px) {
+		font-size: 26px;
+	}
+}
+h3 {
+	font-family: $f2;
+	font-size: 24px;
+
+	@media all and (max-width:1500px) {
+		font-size: 20px;
+	}
+}
+
+svg {
+	width: 16px;
+	height: 16px;
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+
+	&:hover {
+        text-decoration: none;
+	}
+}
+
+input {
+	outline: none;
+}
+
+img {
+	width: 100%;
+	object-fit: cover;
+}
+
+.slick-slide {
+	outline: none;
+}
+
+.slick-arrow {
+	outline: none;
+	cursor: pointer;
+}
