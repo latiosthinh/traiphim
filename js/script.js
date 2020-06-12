@@ -73,12 +73,14 @@
                         $( '.movie-list' ).html( html )
                     }, 0);
                 }
-			})
+            })
+            
+            $( '.load-more__btn' ).html( '<ion-icon name="add-circle-outline"></ion-icon>' )
         }
 
         $( '.filter-newest' ).on( 'click', function( e ) {
             e.preventDefault();
-            
+
             let _data = {
                 'orderby'    : 'newest',
                 '_ajax_nonce': php_data.nonce,
@@ -116,6 +118,11 @@
                 data    : _data,
                 success : function( res ) {
                     let html = '';
+
+                    if ( res.data.length === 0 ) {
+                        $( '.load-more' ).css( 'margin-top', 0 );
+                        $( '.load-more__btn' ).html( 'No movie found!' )
+                    }
 
                     res.data.forEach( e => {
                         html += e;
