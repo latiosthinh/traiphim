@@ -55,6 +55,7 @@
 
     var filter = () => {
         $( '.filter-by-year' ).select2({})
+        let offset = 2;
 
         const getMovie = function( _data ) {
             $.ajax({
@@ -76,6 +77,7 @@
             })
             
             $( '.load-more__btn' ).html( '<ion-icon name="add-circle-outline"></ion-icon>' )
+            offset = 1;
         }
 
         $( '.filter-newest' ).on( 'click', function( e ) {
@@ -99,8 +101,6 @@
 
             getMovie( _data );
         } )
-
-        let offset = 2;
 
         $( '.load-more__btn' ).on( 'click', function( e ) {
             e.preventDefault();
