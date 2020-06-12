@@ -1,84 +1,23 @@
 footer {
-    background: $red;
+    padding: 50px;
 
-    .parallax {
-        background-attachment: fixed;
-        background-position: center center;
-        background-size: cover;
-        height: 50vh;
-    }
-
-    .social {
+    .custom-logo-link {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
+        margin: 0 auto 50px;
 
-        @media all and (max-width:1200px) {
-            justify-content: flex-start;
-        }
-
-        a {
-            display: block;
-            margin-left: 25px;
-
-            @media all and (max-width:1200px) {
-                margin-left: 0;
-                margin-right: 15px;
-            }
-
-            &:hover {
-                svg {
-                    fill: $blue !important;
-                }
-            }
-
-            svg {
-                width: 40px;
-                height: 40px;
-
-                @media all and (max-width:1200px) {
-                    width: 20px;
-                    height: 20px;
-                }
-            }
+        img {
+            width: 270px;
+            height: 90px;
+            object-fit: contain;
         }
     }
-}
 
-.site-info {
-    padding: 40px 0px 50px;
+    .row {
+        justify-content: center;
 
-    @media all and (max-width:1500px) {
-        padding:20px 0px 20px;
-    }
-
-    @media all and (max-width:1200px) {
-        flex-direction: column;
-    }
-
-    .site-title {
-        display: flex;
-        flex-direction: column;
-        padding-top: 0;
-    }
-
-    .info {
-        position: relative;
-        div {
-
-            @media all and (min-width:1200px) {
-                position: absolute;
-                left: 50%;
-                top: 0;
-                transform: translateX(-50%);
-            }
-        }
-        p {
-            color: #ffffff;
-            margin-bottom: 20px;
+        section {
+            margin: 0px 55px;
         }
     }
-}
-
-.footer-img {
-    width: 100%;
 }

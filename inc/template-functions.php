@@ -35,3 +35,14 @@ function traiphim_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'traiphim_pingback_header' );
+
+
+function get_tag_ID( $slug ) {
+	$tag = get_term_by( 'slug', $slug, 'post_tag' );
+
+	if ($tag) {
+		return $tag->term_id;
+	} 
+	
+	return 0;
+}

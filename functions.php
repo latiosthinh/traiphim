@@ -102,6 +102,9 @@ if ( ! function_exists( 'traiphim_setup' ) ) :
 				'flex-height' => true,
 			)
 		);
+
+		add_image_size( 'thumb-120', 120, 162, true );
+		add_image_size( 'thumb-220', 220, 300, true );
 	}
 endif;
 add_action( 'after_setup_theme', 'traiphim_setup' );
@@ -136,6 +139,19 @@ function traiphim_widgets_init() {
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',
+		),
+
+	);
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Footer', 'traiphim' ),
+			'id'            => 'sidebar-footer',
+			'description'   => esc_html__( 'Add widgets here.', 'traiphim' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
 		)
 	);
 }
@@ -147,17 +163,113 @@ add_action( 'widgets_init', 'traiphim_widgets_init' );
 function traiphim_scripts() {
 	wp_enqueue_style( 'slick', get_template_directory_uri() . '/css/slick.css' );
 	wp_enqueue_style( 'aos', 'https://unpkg.com/aos@2.3.1/dist/aos.css', [], _S_VERSION );
+	wp_enqueue_style( 'select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css', [], _S_VERSION );
 	wp_enqueue_style( 'traiphim-style', get_stylesheet_uri(), array(), _S_VERSION );
 
 	wp_enqueue_script( 'traiphim-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-	wp_enqueue_script( 'slick', get_template_directory_uri() . '/js/slick.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'slick', get_template_directory_uri() . '/js/slick.min.js', array( 'jquery' ), _S_VERSION, true );
+	wp_enqueue_script( 'select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js', array( 'jquery' ), _S_VERSION, true );
+	// wp_enqueue_script( 'ionicon', 'https://unpkg.com/ionicons@5.0.0/dist/ionicons.js', array(), _S_VERSION, true );
 
 	wp_enqueue_script( 'traiphim-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'aos', 'https://unpkg.com/aos@2.3.1/dist/aos.js', [], _S_VERSION, true );
 
 	wp_enqueue_script( 'traiphim-script', get_template_directory_uri() . '/js/script.js', array( 'jquery' ), _S_VERSION, true );
+
+	$data = [
+		'home_url'  => home_url(),
+		'ajax_url'  => admin_url( 'admin-ajax.php' ),
+		'nonce'     => wp_create_nonce( 'ajax_nonce' ),
+	];
+
+	wp_localize_script( 'traiphim-script', 'php_data', $data );
 }
 add_action( 'wp_enqueue_scripts', 'traiphim_scripts' );
+
+/**
+ * Show tags in editor
+ */
+add_filter( 'get_terms_args', 'traiphim_show_tags', 10, 1 );
+function traiphim_show_tags ( $args ) {
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'get-tagcloud' ) {
+		unset( $args['number'] );
+	}
+	return $args;
+}
+
+/**
+ * Archive
+ */
+function traiphim_pre_get_posts( $query ) {
+	$per_page = 5;
+
+	$args = [
+		'post_type'      => 'post',
+		'posts_per_page' => $per_page,
+		'tag__not_in'    => [ get_tag_ID( 'comming-soon' ) ],
+	];
+
+	if ( $_POST[ 'orderby' ] ) {
+		$args[ 'orderby' ] = 'modified';
+		$args[ 'order' ]   = 'DESC';
+	}
+	
+	if ( $_POST[ 'year' ] ) {
+		$args[ 'category_name' ] = $_POST[ 'year' ];
+	}
+
+	if ( $_POST[ 'offset' ] ) {
+		$args[ 'offset' ] = $_POST[ 'offset' ] * $per_page;
+	}
+
+	$posts = get_posts( $args );
+
+	$data = [];
+	$i = 0;
+
+	if( $posts ) :
+		foreach ( $posts as $post ) :
+			$content = '<div class="col-md-25">';
+			$content .= '<article class="type-post">
+				<div class="image">
+					<a href="'. get_the_permalink( $post->ID ) .'">
+						<img src="'. get_the_post_thumbnail_url( $post->ID ) .'">
+						<span>Tập '. get_post_meta( $post->ID, 'episode', true ) .'/'. get_post_meta( $post->ID, 'total', true ) .'</span>
+					</a>
+				</div>
+				<a href="'. get_the_permalink( $post->ID ) .'"><h4>'. get_the_title( $post->ID ) .'</h4></a>
+				<div class="info">
+					<span class="cl-gr">'. get_the_category( $post->ID )[0]->name .'</span>
+					<span class="cl-gr">'. get_post_meta( $post->ID, 'length', true  ) .'phút/tập</span>
+					<span class="cl-gr">'. get_the_category( $post->ID )[1]->name .'</span>
+				</div><div class="tags">';
+
+			$tags = get_the_tags( $post->ID );
+			foreach( $tags as $tag ) :
+				$content .= '<a href="'. get_tag_link( $tag->slug ) .'">'. $tag->name .'</a>';
+			endforeach;
+
+			$content .=	'</div></article></div>';
+
+			$data[ $i ] = $content;
+			$i++;
+		endforeach;
+		wp_reset_postdata();
+	endif;
+
+	$response = [
+        'status' => 'success',
+		'data' => $data,
+    ];
+
+	header('Content-type:application/json;charset=utf-8');
+    echo json_encode( $response );
+
+	die;
+}
+add_action( 'wp_ajax_traiphim_get_posts', 'traiphim_pre_get_posts' ); 
+add_action( 'wp_ajax_nopriv_traiphim_get_posts', 'traiphim_pre_get_posts' );
+
 
 require get_template_directory() . '/inc/custom-header.php';
 require get_template_directory() . '/inc/template-tags.php';

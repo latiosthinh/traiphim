@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,300;0,700;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 // Font
-$font-roboto  : 'Roboto',           sans-serif;
-$font-fairplay: 'Playfair Display', serif;
-
-$f1: $font-roboto;
-$f2: $font-fairplay;
-
+$font-sans  : 'Open Sans', sans-serif;
+$f1         : $font-sans;
 
 // Color
-$red : #81151B;
-$blue: #293352;
+$black: #121212;
+$green: #00CA99;
+$green-2: #68C641;
+$white: #F8F8F8;

@@ -33,6 +33,8 @@
 
 	<div class="entry-content">
 		<?php
+		$actors = rwmb_meta( 'actors', get_the_ID() );
+		var_dump( $actors );
 		the_content(
 			sprintf(
 				wp_kses(

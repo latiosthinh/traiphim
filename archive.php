@@ -10,42 +10,54 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<div class="container">
 
-		<?php if ( have_posts() ) : ?>
+	<?php if ( have_posts() ) : ?>
 
-			<header class="page-header">
+		<h1 class="page-title">Phim <?php single_term_title(); ?></h1>
+
+		<div class="filter">
+			<p>Sắp xếp theo:</p>
+
+			<a class="filter-newest">Mới thêm</a>
+			<select class="filter-by-year">
+				<option value="">Năm phát hành</option>
 				<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="archive-description">', '</div>' );
+				$term_id = get_category_by_slug( 'nam-phat-hanh' )->term_id;
+				$taxonomy_name = 'category';
+				$termchildren = get_term_children( $term_id, $taxonomy_name );
+				
+				foreach ( $termchildren as $child ) :
+					$term = get_term_by( 'id', $child, $taxonomy_name );
 				?>
-			</header><!-- .page-header -->
+					<option value="<?= $term->slug ?>"><?= $term->name ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
 
-			<?php
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
+		<div class="row movie-list">
+			<?php while ( have_posts() ) : the_post(); ?>
+				
+				<div class="col-md-25">
+					<?php get_template_part( 'template-parts/content-movie' ); ?>
+				</div>
 
-				/*
-				 * Include the Post-Type-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_type() );
+			<?php endwhile; ?>
+		</div>
+		
+		<div class="load-more">
+			<a class="load-more__btn"><ion-icon name="add-circle-outline"></ion-icon></a>
+		</div>
+	<?php
+	else :
 
-			endwhile;
+		get_template_part( 'template-parts/content', 'none' );
 
-			the_posts_navigation();
+	endif;
+	?>
 
-		else :
+</div>
 
-			get_template_part( 'template-parts/content', 'none' );
-
-		endif;
-		?>
-
-	</main><!-- #main -->
 
 <?php
-get_sidebar();
 get_footer();

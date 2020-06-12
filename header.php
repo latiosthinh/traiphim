@@ -17,6 +17,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
+	<script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+
 	<?php wp_head(); ?>
 </head>
 
@@ -27,30 +30,26 @@
 
 	<header id="masthead" class="site-header">
 		<div class="container d-flex">
-			<div class="site-branding d-flex">
+			<div class="site-branding">
 				<?php the_custom_logo(); ?>
-				<a class="site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-					<h1>ĐẠI HỌC QUỐC GIA HÀ NỘI</h1>
-					<h2>Trường Đại Học Kinh Tế</h2>
-					<h3>VNU - UNIVERSITY OF ECONOMICS AND BUSINESS</h3>
-				</a>
-			</div><!-- .site-branding -->
+			</div>
 
-			<nav id="site-navigation" class="main-navigation">
-				<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><span></span></button>
+			<nav class="main-navigation">
 				<?php
-				wp_nav_menu(
-					array(
-						'theme_location' => 'menu-1',
-						'menu_id'        => 'primary-menu',
-					)
-				);
+				wp_nav_menu([
+					'theme_location'  => 'menu-1',
+					'menu_id'         => 'primary-menu',
+				]);
 				?>
-			</nav><!-- #site-navigation -->
-		</div>
+			</nav>
 
-		<div class="register">
-			<h3>Alumni Association</h3>
-			<a href="">ĐĂNG KÝ</a>
+			<?php echo get_search_form(); ?>
+
+			<div class="socials">
+				<a href="#" target="_blank"><img src="<?= IMG . '/yt.png' ?>"></a>
+				<a href="#" target="_blank"><img src="<?= IMG . '/fa.png' ?>"></a>
+			</div>
+
+			<button class="menu-toggle" aria-expanded="false"><i class="icon ion-navicon"></i></button>
 		</div>
 	</header><!-- #masthead -->

@@ -3,50 +3,140 @@
 
     var bannerSlider = () => {
         $( '.banner-slider' ).slick( {
+            autoplay: false,
+            autoplaySpeed: 3000,
+            dots: true,
+            arrows: false,
+            fade: true,
+            nextArrow: '<button class="next"><span></span></button>',
+            prevArrow: '<button class="prev"><span></span></button>',
+        } )
+    }
+
+    var movieSlider = () => {
+        $( '.movie-slider' ).slick( {
+            slidesToShow: 5,
+            slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 3000,
             dots: false,
             arrows: true,
-            nextArrow: '<button class="next"><span></span></button>',
-            prevArrow: '<button class="prev"><span></span></button>',
-            asNavFor: $( '.banner-title .content' )
+            nextArrow: '<button class="next"><ion-icon name="chevron-forward-outline"></ion-icon></button>',
+            prevArrow: '<button class="prev"><ion-icon name="chevron-back-outline"></ion-icon></button>',
         } )
     }
 
-    var guongmatSlider = () => {
-        $( '.guong-mat_slider' ).slick( {
-            dots: true,
-            nextArrow: '<button class="next"><svg width="21" height="39" viewBox="0 0 21 39" fill="none"><line x1="1.35355" y1="0.646447" x2="20.3536" y2="19.6464" stroke="#9C9C9C"/><line x1="0.646447" y1="38.6464" x2="19.6464" y2="19.6464" stroke="#9C9C9C"/></svg></button>',
-            prevArrow: '<button class="prev"><svg width="21" height="39" viewBox="0 0 21 39" fill="none"><line x1="19.6464" y1="38.3536" x2="0.646448" y2="19.3536" stroke="#9C9C9C"/><line x1="20.3536" y1="0.353553" x2="1.35355" y2="19.3536" stroke="#9C9C9C"/></svg></button>',
-        } )
-    }
-
-    var profileSlider = () => {
-        $( '.profile-slider' ).slick({
-            dots: true,
-            appendDots: $( '.dots' )
+    var actorsSlider = () => {
+        $( '.actors-slider' ).each(function() {
+            $( this ).slick( {
+                slidesToShow: $( this ).hasClass( 'single' ) ? 5 : 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                dots: false,
+                arrows: true,
+                nextArrow: '<button class="next"><ion-icon name="chevron-forward-outline"></ion-icon></button>',
+                prevArrow: '<button class="prev"><ion-icon name="chevron-back-outline"></ion-icon></button>',
+            } )
         })
     }
 
-    var bannerTitleSlider = () => {
-        $( '.banner-title .content' ).slick({
+    var movieSoonSlider = () => {
+        $( '.movie-soon-slider' ).slick( {
+            autoplay: true,
+            autoplaySpeed: 3000,
             dots: false,
-            arrows: false,
+            arrows: true,
             fade: true,
-        })
+            nextArrow: '<button class="next"><ion-icon name="chevron-forward-outline"></ion-icon></button>',
+            prevArrow: '<button class="prev"><ion-icon name="chevron-back-outline"></ion-icon></button>',
+        } )
+    }
+
+    var filter = () => {
+        $( '.filter-by-year' ).select2({})
+
+        const getMovie = function( _data ) {
+            $.ajax({
+				url     : php_data.ajax_url,
+				type    : 'POST',
+				dataType: 'json',
+                data    : _data,
+                success : function( res ) {
+                    let html = '';
+
+                    res.data.forEach( e => {
+                        html += e;
+                    });
+
+                    setTimeout(() => {
+                        $( '.movie-list' ).html( html )
+                    }, 0);
+                }
+			})
+        }
+
+        $( '.filter-newest' ).on( 'click', function( e ) {
+            e.preventDefault();
+            
+            let _data = {
+                'orderby'    : 'newest',
+                '_ajax_nonce': php_data.nonce,
+				'action'     : 'traiphim_get_posts',
+            }
+
+            getMovie( _data );
+        } )
+
+        $( '.filter-by-year' ).on( 'change', function() {
+            let _data = {
+                'year'       : $( '.filter-by-year' ).val(),
+                '_ajax_nonce': php_data.nonce,
+				'action'     : 'traiphim_get_posts',
+            }
+
+            getMovie( _data );
+        } )
+
+        let offset = 2;
+
+        $( '.load-more__btn' ).on( 'click', function( e ) {
+            e.preventDefault();
+            
+            let _data = {
+                'offset'     : offset,
+                '_ajax_nonce': php_data.nonce,
+				'action'     : 'traiphim_get_posts',
+            }
+
+            $.ajax({
+				url     : php_data.ajax_url,
+				type    : 'POST',
+				dataType: 'json',
+                data    : _data,
+                success : function( res ) {
+                    let html = '';
+
+                    res.data.forEach( e => {
+                        html += e;
+                    });
+
+                    setTimeout(() => {
+                        $( '.movie-list' ).append( html )
+                    }, 0);
+                }
+            })
+            
+            offset += 1;
+        } )
     }
 
     $doc.ready( () => {
-        $( '.banner' ).css( 'margin-top', $( 'header' ).innerHeight() + 'px' )
-
-        if ( $( window ).width() < 1200 ) {
-            $( '.banner' ).css( 'margin-top', '40px' )
-        }
-        
         bannerSlider();
-        bannerTitleSlider();
-        guongmatSlider();
-        profileSlider();
+        movieSlider();
+        movieSoonSlider();
+        actorsSlider();
+        filter();
 
         $( '.open-video' ).click( () => {
             $( '#video' ).addClass( 'active' )

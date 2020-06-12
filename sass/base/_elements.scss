@@ -1,49 +1,52 @@
 html {
-	font-size: 14px;
 	box-sizing: border-box;
-	color: $blue;
 }
 
 * {
-	font-family: $f1;
 	margin: 0;
 	padding: 0;
+	font-family: $f1;
+	font-size: 14px;
+	font-weight: 400;
+	color: $white;
+}
+
+body {
+	background: $black;
 }
 
 .site {
 	overflow: hidden;
 }
 
-.container {
-	@media all and (min-width:1200px) {
-		width: 94%;
-		max-width: unset;
-	}
-}
-
 // Headings.
 h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 1.5rem;
 	line-height: 1.5;
+	font-weight: 700;
 }
-h1 {
-	font-size: 14px;
+
+h1, .h1 {
+	font-size: 48px;
 }
-h2 {
-	font-family: $f2;
+
+h2, .h2 {
 	font-size: 36px;
+	display: flex;
+	align-items: flex-end;
 
-	@media all and (max-width:1500px) {
-		font-size: 26px;
+	ion-icon {
+		margin-bottom: 9px;
+		font-size: 30px;
 	}
 }
-h3 {
-	font-family: $f2;
-	font-size: 24px;
 
-	@media all and (max-width:1500px) {
-		font-size: 20px;
-	}
+h3, .h3 {
+	font-size: 24px;
+}
+
+h4, .h4 {
+	font-size: 18px;
 }
 
 svg {
@@ -65,7 +68,7 @@ input {
 }
 
 img {
-	width: 100%;
+	max-width: 100%;
 	object-fit: cover;
 }
 
@@ -76,4 +79,22 @@ img {
 .slick-arrow {
 	outline: none;
 	cursor: pointer;
+}
+
+ul, ol, li {
+	list-style: none;
+	padding: 0;
+}
+
+button {
+	background: none;
+	border: 0;
+}
+
+.main-btn {
+	color: $white;
+	background: $green;
+	box-shadow: 0 0 16px $green;
+	padding: 11px 25px;
+	border-radius: 999px;
 }
