@@ -10,6 +10,7 @@
         $query = new WP_Query($args);
 
         if ( $query->have_posts() ) :
+            $i = 0;
             while ( $query->have_posts() ) :
                 $query->the_post();
 
@@ -17,7 +18,20 @@
         ?>
             
             <div class="banner-slider__item">
-                <iframe src="https://www.youtube.com/embed/<?= rwmb_meta( 'trailer' ); ?>?controls=0&showinfo=0&playsinline=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe
+                    <?php if ( $i === 0 ) : ?>
+                    src="https://www.youtube.com/embed/<?= rwmb_meta( 'trailer' ); ?>?'&autoplay=1&loop=1&controls=0&showinfo=0&playsinline=1&playlist=<?= rwmb_meta( 'trailer' ); ?>"
+                    data-src="https://www.youtube.com/embed/<?= rwmb_meta( 'trailer' ); ?>?'&autoplay=1&loop=1&controls=0&showinfo=0&playsinline=1&playlist=<?= rwmb_meta( 'trailer' ); ?>"
+                    <?php else : ?>
+                    src=""
+                    data-src="https://www.youtube.com/embed/<?= rwmb_meta( 'trailer' ); ?>?'&autoplay=1&loop=1&controls=0&showinfo=0&playsinline=1&playlist=<?= rwmb_meta( 'trailer' ); ?>"
+                    <?php endif; ?>
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                
+                <?php $i+=1; ?>
 
                 <div class="content">
                     <div class="container">
@@ -35,7 +49,7 @@
                                     <span class="h4">1234 lượt xem</span>
                                     <img src="<?= IMG . '/heart.png' ?>">
                                 </div>
-                                <p class="description"><?= rwmb_meta( 'description' ); ?></p>
+                                <div class="description"><?= rwmb_meta( 'description' ); ?></div>
 
                                 <div class="actions">
                                     <a href="<?= rwmb_meta( 'youtube' ); ?>" target="_blank" class="main-btn">
@@ -69,6 +83,7 @@
                 </div>
             </div>
         <?php
+            $i+=1;
             endwhile;
             wp_reset_postdata();
         endif;

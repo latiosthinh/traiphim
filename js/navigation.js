@@ -12,7 +12,7 @@
 		return;
 	}
 
-	button = container.getElementsByTagName( 'button' )[0];
+	button = document.getElementsByClassName( 'menu-toggle' )[0];
 	if ( 'undefined' === typeof button ) {
 		return;
 	}
@@ -34,6 +34,7 @@
 			container.className = container.className.replace( ' toggled', '' );
 			button.setAttribute( 'aria-expanded', 'false' );
 		} else {
+			container.classList.add( 'toggled' )
 			container.className += ' toggled';
 			button.setAttribute( 'aria-expanded', 'true' );
 		}

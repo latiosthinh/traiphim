@@ -116,7 +116,7 @@ get_template_part( 'template-parts/hero' );
                     <span>Follow us:</span>
 
                     <a href="#" target="_blank"><img src="<?= IMG . '/yt.png' ?>"></a>
-                    <a href="#" target="_blank"><img src="<?= IMG . '/fa.png' ?>"></a>
+                    <a href="https://www.facebook.com/Traiphim.vn" target="_blank"><img src="<?= IMG . '/fa.png' ?>"></a>
                 </div>
             </div>
         </div>

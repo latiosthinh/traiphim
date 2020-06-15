@@ -7,6 +7,10 @@ header {
     left: 0;
     padding: 14px 0;
 
+    @media all and (max-width:992px) {
+        padding: 0;
+    }
+
     > .container {
         justify-content: space-between;
         align-items: center;
@@ -19,16 +23,52 @@ header {
             width: 168px;
             height: 56px;
             object-fit: contain;
+
+            @media all and (max-width:992px) {
+                width: 120px;
+            }
         }
     }
 
     nav {
+        @media all and (max-width:992px) {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 70%;
+            background: #000;
+            border-right: 5px solid $green;
+            transform: translateX(-100%);
+            transition: .3s;
+
+            &.toggled {
+                transform: translateX(0);
+            }
+        }
+
         ul {
             display: flex;
+
+            @media all and (max-width:992px) {
+                flex-direction: column;
+                padding-top: 20px;
+            }
 
             > li {
                 margin: 0 24px;
                 position: relative;
+
+                @media all and (max-width:992px) {
+                    margin-bottom: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    ion-icon {
+                        font-size: 16px;
+                    }
+                }
 
                 &:after {
                     display: block;
@@ -40,6 +80,10 @@ header {
                     left: 50%;
                     bottom: -10px;
                     transform: translateX(-50%);
+
+                    @media all and (max-width:992px) {
+                        display: none;
+                    }
                 }
 
                 &.current-menu-item {
@@ -57,10 +101,18 @@ header {
                         color: $green;
                     }
 
-                    ul {
-                        visibility: visible;
-                        opacity: 1;
-                        transform: translate(-50%, 0%);
+                    ul, .sub-menu {
+                        &.active {
+                            visibility: visible;
+                            opacity: 1;
+                            transform: translate(-50%, 0%);
+                        }
+
+                        @media all and (min-width:992px) {
+                            visibility: visible;
+                            opacity: 1;
+                            transform: translate(-50%, 0%);
+                        }
                     }
                 }
 
@@ -81,8 +133,18 @@ header {
                 transform: translate(-50%, 10%);
                 transition: .2s;
 
+                @media all and (max-width:992px) {
+                    width: 100%;
+                    z-index: 2;
+                    padding-top: 0;
+                }
+
                 li {
                     margin: 0;
+
+                    @media all and (max-width:992px) {
+                        padding: 10px 0;
+                    }
                 }
 
                 a {
@@ -115,7 +177,6 @@ header {
 }
 
 .header-search__wrapper {
-    
     .search-form {
         display: block;
         width: 250px;
@@ -123,6 +184,10 @@ header {
         border: 1px solid $white;
         border-radius: 999px;
         position: relative;
+
+        @media all and (max-width:992px) {
+            display: none;
+        }
     }
 
     .search-submit {
@@ -157,5 +222,13 @@ header {
 .menu-toggle {
     @media all and (min-width:991px) {
         display: none;
+    }
+
+    outline: none;
+    position: relative;
+    z-index: 30;
+
+    ion-icon {
+        font-size: 30px;
     }
 }

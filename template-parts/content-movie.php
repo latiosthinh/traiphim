@@ -1,7 +1,7 @@
 <article <?= post_class(); ?>>
     <div class="image">
         <a href="<?= get_the_permalink(); ?>">
-            <img src="<?= get_the_post_thumbnail_url(); ?>">
+            <img src="<?= get_the_post_thumbnail_url( 'thumb-220' ); ?>">
 
             <span>Tập <?= rwmb_meta( 'episode' ); ?>/<?= rwmb_meta( 'total' ); ?></span>
         </a>

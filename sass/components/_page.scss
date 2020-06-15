@@ -21,6 +21,10 @@
 
     p {
         margin-right: 50px;
+
+        @media all and (max-width:992px) {
+            display: none;
+        }
     }
 
     a {

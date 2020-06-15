@@ -34,7 +34,7 @@
 				<?php the_custom_logo(); ?>
 			</div>
 
-			<nav class="main-navigation">
+			<nav id="site-navigation" class="main-navigation">
 				<?php
 				wp_nav_menu([
 					'theme_location'  => 'menu-1',
@@ -47,9 +47,9 @@
 
 			<div class="socials">
 				<a href="#" target="_blank"><img src="<?= IMG . '/yt.png' ?>"></a>
-				<a href="#" target="_blank"><img src="<?= IMG . '/fa.png' ?>"></a>
+				<a href="https://www.facebook.com/Traiphim.vn" target="_blank"><img src="<?= IMG . '/fa.png' ?>"></a>
 			</div>
 
-			<button class="menu-toggle" aria-expanded="false"><i class="icon ion-navicon"></i></button>
+			<button class="menu-toggle" aria-expanded="false"><ion-icon name="menu-sharp"></ion-icon></button>
 		</div>
 	</header><!-- #masthead -->

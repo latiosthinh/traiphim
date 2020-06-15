@@ -1,5 +1,6 @@
 (function( $ ) {
     const $doc = $( document );
+    const $win = $( window );
 
     var bannerSlider = () => {
         $( '.banner-slider' ).slick( {
@@ -10,6 +11,24 @@
             fade: true,
             nextArrow: '<button class="next"><span></span></button>',
             prevArrow: '<button class="prev"><span></span></button>',
+        } )
+
+        $( '.banner-slider .slick-dots li' ).each( function() {
+            if ( $( this ).hasClass( 'slick-active' ) && $win.width() > 992 ) {
+                setTimeout(() => {
+                    $( this ).trigger( 'click' )
+                }, 1000);
+            }
+        } )
+
+        $( '.banner-slider .slick-dots li' ).on( 'click', function() {
+            let iframe_src =  $( '.banner-slider__item.slick-active iframe' ).attr( 'data-src' )
+
+            $( '.banner-slider__item iframe' ).attr( 'src', "" )
+
+            setTimeout(() => {
+                $( '.banner-slider__item.slick-active iframe' ).attr( 'src', iframe_src )
+            }, 0);
         } )
     }
 
@@ -23,6 +42,12 @@
             arrows: true,
             nextArrow: '<button class="next"><ion-icon name="chevron-forward-outline"></ion-icon></button>',
             prevArrow: '<button class="prev"><ion-icon name="chevron-back-outline"></ion-icon></button>',
+            responsive: [ {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                }
+            } ]
         } )
     }
 
@@ -37,6 +62,12 @@
                 arrows: true,
                 nextArrow: '<button class="next"><ion-icon name="chevron-forward-outline"></ion-icon></button>',
                 prevArrow: '<button class="prev"><ion-icon name="chevron-back-outline"></ion-icon></button>',
+                responsive: [ {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                } ]
             } )
         })
     }
@@ -139,29 +170,27 @@
     }
 
     $doc.ready( () => {
+
         bannerSlider();
         movieSlider();
         movieSoonSlider();
         actorsSlider();
         filter();
 
-        $( '.open-video' ).click( () => {
-            $( '#video' ).addClass( 'active' )
-        } )
+        // $doc.on( 'scroll', function() {
+        //     if ( $doc.scrollTop() > 100 ) {
+        //         $( 'header' ).addClass( 'fixed' )
+        //     } else {
+        //         $( 'header' ).removeClass( 'fixed' )
+        //     }
+        // } )
 
-        $( '.video-bg' ).click( () => {
-            $( '#video' ).removeClass( 'active' )
-        } )
+        // AOS.init();
 
-        $doc.on( 'scroll', function() {
-            if ( $doc.scrollTop() > 100 ) {
-                $( 'header' ).addClass( 'fixed' )
-            } else {
-                $( 'header' ).removeClass( 'fixed' )
-            }
+        $( '.main-navigation li.menu-item-has-children' ).append( '<ion-icon name="caret-down-outline"></ion-icon>' )
+        $( '.main-navigation li.menu-item-has-children ion-icon' ).on( 'click', function() {
+            $( this ).siblings( 'ul' ).toggleClass( 'active' );
         } )
-
-        AOS.init();
     } )
 
 })( jQuery )
