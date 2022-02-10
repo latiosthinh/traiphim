@@ -6,6 +6,6 @@
     "watch": "node-sass --output-style compressed -w sass -r -o ."
   },
   "dependencies": {
-    "node-sass": "^4.13.1"
+    "node-sass": "^7.0.0"
   }
 }
